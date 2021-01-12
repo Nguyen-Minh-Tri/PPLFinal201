@@ -1,0 +1,109 @@
+#3: reference vs ponter:
+--reference ch? t?i m?t th?c th? có giá tr? b?ng tên khác
+trong khi dó pointer ch?a giá tr? d?a ch?
+---reference không th? null còn pointer thì du?c
+---reference ph?i có kh?i t?o còn pointer thì k b?t bu?c
+---reference chia s? b? nh? v?i th?ng g?c, pointer thì có ph?n b? nh? riêng
+
+#4: 
+---d? quy: nang l?c l?n nh?t c?a d? quy là l?p l?i
+b?n thân ch?c nang c?a nó v?i lu?ng code c?c ng?n mà l?i
+hi?u qu? cao, di?m tr? là khó ki?m soát di?m d?ng
+---coroutine: tuong t? nhu là thread , nhung t?i m?t 
+th?i di?m, lu?ng ch?y song song còn coroutine thì không
+---scheduled subroutine: subroutine cung là m?t callable unit
+trình d?nh th?i thì là m?t ph?n du?c li?t kê trong 
+chuong trình ho?c du?c t?o ra trong thu vi?n, nó du?c 
+g?i rad d? ph?c v? vi?c phân ph?i công vi?c (tùy vào cách hi?u,
+có tru?ng h?p có th? hi?u dây là chuong trình dã du?c lên l?ch)
+liên quan d?n scheduled subprograms: có 2 cách th? hi?n 
+phân l?ch b?ng th?i gian
+phân l?ch b?ng uu tiên th? t?
+-----------------------------------------------------------
+
+---Task: có th? th?c hi?n cùng lúc v?i nhi?u task khác
+ch?y b?ng ti?n trình da nhân ho?c don nhân v?i trình phân b?
+các v?n d? liên quan: race condition và deadlock
+---simple call-return: không có recursion; ph?i có di?m g?i c? th?
+có di?m vào duy nh?t, không c?n nh?ng th? t?c chuy?n giao ho?c kh?ng ch?
+ch?y don
+
+
+#5:
+d?u tiên là tham chi?u treo: tham chi?u t?i d?a ch? không còn t?n t?i, ho?c sai
+---lock and key:
+phía pointer: c?m d?a ch? và key
+phía b? nh?: có giá tr? và m?t vùng m? r?ng cho lock
+
+---tombstone: tomestone set a value when the memory is set
+when it is dealoacated the tomestone value set to null
+this say that the variable is no longer exitst
+
+#6:
+-------------------------------------------
+    def visitIf(self, ast, c):
+        lst = [[],[]]
+        lst[1] = c[1] + c[0]
+        lst[0] = []
+
+        errCheck = []
+
+        for i in ast.ifthenStmt:
+            errCheck = errCheck + [self.sortType(i[0].accept(self, lst))]
+            for j in i[1]:
+                lst[0] = lst[0] + [j.accept(self, lst)]
+            for j in i[2]:
+                j.accept(self, lst)
+        
+        for i in errCheck:
+            if i != BoolType:
+                raise TypeMismatchInStatement(ast)
+
+
+        elseStmt = ast.elseStmt
+        for j in elseStmt[0]:
+            lst[0] = lst[0] + [j.accept(self, lst)]
+        for j in elseStmt[1]:
+            j.accept(self, lst)
+--------------------------------------------
+    def visitReturn(self, ast, c):
+        if ast.expr == None:
+            return VoidType
+        if type(ast.expr.accept(self, c)) in self.primType:
+            return type(ast.expr.accept(self, c))
+        return Unknown   
+-------------------------------------------------
+
+#7
+a) môi tru?ng tham kh?o tinh
+---main: a,b,c //1; sub1//2; print(b) //5
+---sub1: main tr? a//2; sub2//3; sub3//4 
+---sub2: sub1 tr? a,c,f  //3
+---sub3: sub2 tr? b//4
+
+b)
+ //coi nhu compiler dã th?c hi?n xong, gi? ch? là g?i
+
+-------------------------------------
+chuong trình     |    ho?t d?ng
+main()	------------------ a,b,c //1 ? dây gán, lu?i ghi quá
+	------------------ sub1  //2
+sub1()  ------------------ a //2
+	------------------ sub2()  //3
+sub2()	------------------ a,c,f() //3
+sub1()  ------------------ sub3() //4
+sub3()  ------------------ b//4 và tính toán
+//tính toán ngoài sub1()
+sub1(3) ------------------ // ch?y tuong t? nhu lúc khai báo
+các giá tr? thay d?i nhu sau: 
+a = 3;  
+------not yet done ###
+-------------------------------------
+
+#8:
+a) truy?n theo value-result:
+---9;1;6;14
+b) truy?n theo d?a ch?:
+---9;1;6;14
+c) truy?n tên:
+---10;3;5;13

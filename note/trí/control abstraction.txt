@@ -1,0 +1,58 @@
+#simple call return
+không có d? quy, có cú pháp g?i, có di?m vào,
+có chuy?n quy?n trung gian, có noi th?c thi
+
+#recursive call
+tuong t? nhu simple call nhung th?ng này cho phép g?i
+d? quy (tr?c ti?p ho?c gián ti?p - hay còn g?i là mutual)
+
+#exception processing handler
+có th? không có cú pháp g?i c? th?, gi?ng nhu m?t class
+du?c kh?i t?o ngay t? d?u chuong trình ch?y song song
+
+m?t ngôn ng? ph?i c? th? hóa:
++ cái nào là ngo?i l? và làm sao d? kh?i t?o
++ làm th? nào d? g?i
++ làm th? nào d? ki?m soát
+
+Java thì dùng throwable (cái này th?ng code làm)
+Ada thì dùng giá tr? d?c bi?t (k bi?t nó là gì luôn)
+C++ : anh m choi t?t các th? lo?i trên d?i
+
+Có th? kích ho?t exeption qua vài lv:
+--- user interaction
+--- operating system
+--- object (timer)
+--- by programmer
+
+ki?m soát exeption:
++t?o ra protected block d? ch?n exeption
++ho?c d? tuong tác v?i nhau ch?n phuong án
+
+#coroutines:
+trong slide ví d? là làm th?ng A xong round chuy?n
+qua B, xong round l?i v? A, cu?i cùng xong vi?c thì
+out ra ? A (lúc vào là ? A)
+
+#task:
+ná ná OS
+
+#formal and actual p?meter
+--- formal paremeter ch? là cái tên d? g?i cho lúc 
+t?o hàm, actual param là b? giá tr? vô luôn(expression)
+
+#parameter passing
+input có th? là: giá tr? ho?c d?a ch? reference
+output cung có th? là giá tr? ho?c giá tr? hàm tr?
+
+input-output: 
++value-result: cho giá tr?, sau thao tác tr? ra gì dó
+only the copied data from the memory is sent
++reference:cho d?a ch? th?t, sau thao tác có th? thay d?i luôn giá tr? d?u
++name: xài hoài, cái này là dua tên vô t? g?i ra giá tr? ho?c d?a ch?
+m?t cái tên có th? nhi?u d?ng etc
+
+
+#note ph?: alias --- nhi?u tên vô m?t b? nh?
+
+

@@ -1,0 +1,13 @@
+pass by value-result:
+---pass giá tr? vào, tính toán, cái pass vào ch? là copied value
+---sau khi tính toán xong, nó copy back l?i cái ban d?u
+---activation b? phá h?y ngay sao dó, còn l?i giá tr? m?i
+
+pass by reference:
+---m?i ho?t d?ng trong hàm th?c t? du?c thao tác trên th?c th? dua vào
+---không gi?ng nhu value-result du?c th?c hi?n xong và copy back
+
+pass by name:
+---pass th?ng code c?a argument, lúc th?c thi nó th?c thi code dó
+---khác v?i reference là nó th?c thi cái du?c pass vào ch? không ph?i là tính toán d?a ch? tuong ?ng
+---hi?u don gi?n là trong lúc th?c hi?n nó v?n dùng cái tên nhu v?y, n?u bu?c trên có thay d?i s? ?nh hu?ng bu?c du?i ngay l?p t?c
