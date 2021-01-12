@@ -60,7 +60,7 @@ def visitFor(self, ast, c):
 #de 17 -- binop 
 #cau nay chi yeu cau viet cho AND operator
 
-def visitBinaryOp(self, ast, c):
+def visitBinaryOptrongde(self, ast, c):
     # op = ast.op
     leftCode, _ = ast.left.accept(self, Access(c.frame, c.sym))
     rightCode, _ = ast.right.accept(self, Access(c.frame, c.sym))
@@ -68,6 +68,61 @@ def visitBinaryOp(self, ast, c):
     #op must be '&&' check or not is nonsense
     return code + self.emitANDOP(c.frame), BoolType()
 
+def visitBooleanLiteraltrongcode(self, ast, c):
+    return self.emit.emitPUSHICONST(str(ast.value).lower(), c.frame) if c.frame else None, BoolType()
+
+#visitBinary full ver
+def visitBinary(self, ast, c):
+    adding = ['+','-','+.','-.']
+    multiplying = ['*','/','*.','/.']
+    relational = ['==','!=','<','>','<=','>=','<.','>.','<=.','>=.']
+
+    #preparing
+    leftCode, binType = ast.left.accept(self, Access(c.frame, c.sym))
+    rightCode, _ = ast.right.accept(self, Access(c.frame, c.sym))
+    code = leftCode + rightCode
+    #thu tu phep toan: cong, nhan, mod, and, or, relation
+    if ast.op in adding:
+        return code + self.emit.emitADDOP(ast.op[0], binType, c.frame), binType
+    if ast.op in multiplying:
+        return code + self.emit.emitMULOP(ast.op[0], binType. c.frame), binType
+    if ast.op == '%':
+        return code + self.emit.emitMOD(c.frame), IntType()
+    if ast.op == '&&':
+        return code + self.emit.emitANDOP(c.frame), BoolType()
+    if ast.op == '||':
+        return code + self.emit.emitOROP(c.frame), BoolType()
+    if ast.op in relational:
+        return code + self.emit.emitREOP(ast.op[:-1] if ast.op[-1] == '.' else ast.op, binType, c.frame), BoolType()
+    if ast.op == '=/=':
+        return code + self.emit.emitREOP('!=', binType, c.frame), BoolType()
+
+
+
+###################        VISIT LITERAL       ######################
+#####################################################################
+def visitIntLiteral(self, ast, c):
+    return self.emit.emitPUSHICONST(ast.value, c.frame) if c.frame else None, IntType()
+
+def visitFloatLiteral(self, ast, c):
+    return self.emit.emitPUSHICONST(str(ast.value), c.frame) if c.frame else None, FloatType()
+
 def visitBooleanLiteral(self, ast, c):
     return self.emit.emitPUSHICONST(str(ast.value).lower(), c.frame) if c.frame else None, BoolType()
 
+def visitStringLiteral(self, ast, c):
+    return self.emit.emitPUSHCONST(ast.value, StringType(), c.frame) if c.frame else None, StringType()
+
+def visitArrayLiteral(self, ast, c):
+    def visitArray(arr):
+        if type(arr) is IntLiteral:
+            return IntType()
+        if type(arr) is FloatLiteral:
+            return FloatType()
+        if type(arr) is BooleanLiteral:
+            return BoolType()
+        if type(arr) is StringLiteral:
+            return StringType()
+        return ArrayType(visitArray(arr.value[0]), len(arr.value))
+    arrType = visitArray(ast)
+    return self.emit.emitPUSHACONST(ast, arrType, c.frame) if c.frame else None, arrType
